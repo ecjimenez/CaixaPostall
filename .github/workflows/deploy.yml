@@ -1,0 +1,25 @@
+name: Deploy Backend & Frontend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Permite deploy manual pelo GitHub
+
+jobs:
+  deploy-supabase:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy Edge Functions
+        run: supabase functions deploy server --project-ref wjdhrhrxmzihzzfrregz
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
